@@ -3,21 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agenda de Medicações – 3 Pessoas – 100% Editável</title>
+<title>Agenda de Medicações – 3 Pessoas</title>
 <style>
     body { font-family: Arial, sans-serif; margin: 20px; background: #f4f4f4; }
     h1 { text-align: center; }
     table { width: 100%; border-collapse: collapse; background: #fff; }
-    th, td { padding: 10px; border: 1px solid #ccc; text-align: left; vertical-align: top; }
+    th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
     th { background: #e7e7e7; }
-    td[contenteditable="true"] { background: #fff8dc; }
     .person-column { width: 80px; text-align: center; }
-    input[type="checkbox"] { transform: scale(1.3); }
     .done { background: #c8f7c5; }
-    button { margin: 5px 0; padding: 10px 15px; font-size: 16px; cursor: pointer; }
 </style>
 <script>
-// Marca ou desmarca linha como concluída
 function markDone(checkbox) {
     const row = checkbox.parentElement.parentElement;
     if (checkbox.checked) {
@@ -26,122 +22,170 @@ function markDone(checkbox) {
         row.classList.remove("done");
     }
 }
-
-// Salva os dados da tabela no localStorage
-function saveData() {
-    const table = document.getElementById('agenda');
-    const data = [];
-    for (let i = 0; i < table.rows.length; i++) {
-        const row = table.rows[i];
-        const rowData = [];
-        for (let j = 0; j < row.cells.length; j++) {
-            const cell = row.cells[j];
-            const checkbox = cell.querySelector('input[type="checkbox"]');
-            if (checkbox) {
-                rowData.push(checkbox.checked);
-            } else {
-                rowData.push(cell.innerText);
-            }
-        }
-        data.push(rowData);
-    }
-    localStorage.setItem('agendaData', JSON.stringify(data));
-    alert("Alterações salvas!");
-}
-
-// Carrega os dados do localStorage
-function loadData() {
-    const data = JSON.parse(localStorage.getItem('agendaData') || "[]");
-    const table = document.getElementById('agenda');
-    if (data.length === 0) return;
-
-    for (let i = 0; i < data.length; i++) {
-        // Se não existir a linha, cria
-        if (!table.rows[i]) {
-            addRow();
-        }
-        const row = table.rows[i];
-        for (let j = 0; j < row.cells.length; j++) {
-            const cell = row.cells[j];
-            const checkbox = cell.querySelector('input[type="checkbox"]');
-            if (checkbox) {
-                checkbox.checked = data[i][j];
-                markDone(checkbox);
-            } else {
-                cell.innerText = data[i][j];
-            }
-        }
-    }
-}
-
-// Adiciona uma nova linha editável
-function addRow() {
-    const table = document.getElementById('agenda');
-    const row = table.insertRow();
-    for (let i = 0; i < table.rows[0].cells.length; i++) {
-        const cell = row.insertCell();
-        if (i >= table.rows[0].cells.length - 3) { // Últimas 3 colunas são checkboxes
-            const checkbox = document.createElement('input');
-            checkbox.type = "checkbox";
-            checkbox.onclick = function() { markDone(this); };
-            cell.appendChild(checkbox);
-            cell.className = "person-column";
-        } else {
-            cell.contentEditable = "true";
-        }
-    }
-}
-
-window.onload = loadData;
 </script>
 </head>
+
 <body>
+<h1>Agenda de Medicações – Compartilhado por 3 Pessoas</h1>
 
-<h1 contenteditable="true">Agenda de Medicações – Compartilhado por 3 Pessoas</h1>
-
-<button onclick="addRow()">Adicionar nova linha</button>
-<button onclick="saveData()">Salvar alterações</button>
-<br><br>
-
-<table id="agenda">
+<table>
 <thead>
 <tr>
-    <th contenteditable="true">Data</th>
-    <th contenteditable="true">Hora</th>
-    <th contenteditable="true">Medicamento</th>
-    <th contenteditable="true">Dose</th>
-    <th contenteditable="true">Via</th>
-    <th contenteditable="true">Observações</th>
-    <th class="person-column" contenteditable="true">Pessoa 1</th>
-    <th class="person-column" contenteditable="true">Pessoa 2</th>
-    <th class="person-column" contenteditable="true">Pessoa 3</th>
+    <th>Data</th>
+    <th>Hora</th>
+    <th>Medicamento</th>
+    <th>Dose</th>
+    <th>Via</th>
+    <th>Observações</th>
+    <th class="person-column">Pessoa 1</th>
+    <th class="person-column">Pessoa 2</th>
+    <th class="person-column">Pessoa 3</th>
 </tr>
 </thead>
+
 <tbody>
 
-<tr>
-    <td contenteditable="true">29/11/2025</td>
-    <td contenteditable="true">17:00</td>
-    <td contenteditable="true">Prediderm</td>
-    <td contenteditable="true">1 comp</td>
-    <td contenteditable="true">Oral</td>
-    <td contenteditable="true">Usar com Ciclosporina</td>
-    <td><input type="checkbox" onclick="markDone(this)"></td>
-    <td><input type="checkbox" onclick="markDone(this)"></td>
-    <td><input type="checkbox" onclick="markDone(this)"></td>
-</tr>
+<!-- A agenda está aqui (todos os itens inseridos) -->
 
-<tr>
-    <td contenteditable="true">29/11/2025</td>
-    <td contenteditable="true">17:00</td>
-    <td contenteditable="true">Epiotic</td>
-    <td contenteditable="true">Aplicar</td>
-    <td contenteditable="true">Otológica</td>
-    <td contenteditable="true">Agitar antes de usar</td>
-    <td><input type="checkbox" onclick="markDone(this)"></td>
-    <td><input type="checkbox" onclick="markDone(this)"></td>
-    <td><input type="checkbox" onclick="markDone(this)"></td>
-</tr>
+<tr><td>29/11/2025</td><td>17:00</td><td>Prediderm</td><td>1 comp</td><td>Oral</td><td>Usar com Ciclosporina</td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>29/11/2025</td><td>17:00</td><td>Epiotic</td><td>Aplicar</td><td>Otológica</td><td>Agitar antes de usar</td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>30/11/2025</td><td>17:00</td><td>Prediderm</td><td>1 comp</td><td>Oral</td><td></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>30/11/2025</td><td>17:00</td><td>Agemoxi CL</td><td>1/2 comp</td><td>Oral</td><td>Início hoje</td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>30/11/2025</td><td>17:00</td><td>Epiotic</td><td>Aplicar</td><td>Otológica</td><td></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>01/12/2025</td><td>17:00</td><td>Prediderm</td><td>1 comp</td><td>Oral</td><td></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>01/12/2025</td><td>17:00</td><td>Agemoxi CL</td><td>1/2 comp</td><td>Oral</td><td></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>01/12/2025</td><td>17:00</td><td>Epiotic</td><td>Aplicar</td><td>Otológica</td><td></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>02/12/2025</td><td>17:00</td><td>Prediderm</td><td>1 comp</td><td>Oral</td><td></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>02/12/2025</td><td>17:00</td><td>Agemoxi CL</td><td>1/2 comp</td><td>Oral</td><td>Último dia</td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>02/12/2025</td><td>17:00</td><td>Epiotic</td><td>Aplicar</td><td>Otológica</td><td></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>03/12/2025</td><td>17:00</td><td>Prediderm</td><td>1 comp</td><td>Oral</td><td></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>03/12/2025</td><td>17:00</td><td>Epiotic</td><td>Aplicar</td><td>Otológica</td><td></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>04/12/2025</td><td>17:00</td><td>Prediderm</td><td>1 comp</td><td>Oral</td><td></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>04/12/2025</td><td>17:00</td><td>Epiotic</td><td>Aplicar</td><td>Otológica</td><td></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>05/12/2025</td><td>17:00</td><td>Prediderm</td><td>1 comp</td><td>Oral</td><td></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>05/12/2025</td><td>17:00</td><td>Epiotic</td><td>Aplicar</td><td>Otológica</td><td></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>06/12/2025</td><td>17:00</td><td>Prediderm</td><td>1 comp</td><td>Oral</td><td></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>06/12/2025</td><td>17:00</td><td>Epiotic</td><td>Aplicar</td><td>Otológica</td><td></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>07/12/2025</td><td>17:00</td><td>Prediderm</td><td>1 comp</td><td>Oral</td><td></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>07/12/2025</td><td>17:00</td><td>Epiotic</td><td>Aplicar</td><td>Otológica</td><td></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>08/12/2025</td><td>17:00</td><td>Prediderm</td><td>1 comp</td><td>Oral</td><td>Último dia dessa fase</td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>08/12/2025</td><td>17:00</td><td>Epiotic</td><td>Aplicar</td><td>Otológica</td><td>Último dia</td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>09/12/2025</td><td>17:00</td><td>Prediderm</td><td>1/2 comp</td><td>Oral</td><td>Início da redução</td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>10/12/2025</td><td>17:00</td><td>Prediderm</td><td>1/2 comp</td><td>Oral</td><td></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>11/12/2025</td><td>17:00</td><td>Prediderm</td><td>1/2 comp</td><td>Oral</td><td></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>12/12/2025</td><td>17:00</td><td>Prediderm</td><td>1/2 comp</td><td>Oral</td><td></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+
+<tr><td>13/12/2025</td><td>17:00</td><td>Prediderm</td><td>1/2 comp</td><td>Oral</td><td>Último dia</td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td>
+<td><input type="checkbox" onclick="markDone(this)"></td></tr>
 
 </tbody>
 </table>
