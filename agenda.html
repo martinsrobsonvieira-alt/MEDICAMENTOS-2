@@ -1,48 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Minha Agenda Online</title>
+    <meta charset="UTF-8" />
+    <title>Agenda de Medicamentos 100% Editável</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 40px; }
         h1 { color: #333; }
-        label { display: block; margin-top: 10px; }
-        input, textarea { width: 300px; padding: 8px; margin-top: 5px; }
-        button { margin-top: 15px; padding: 10px 20px; }
-        .evento { margin-top: 20px; padding: 10px; border: 1px solid #ccc; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+        th { background: #f2f2f2; }
+        button { margin-top: 15px; padding: 10px 20px; cursor: pointer; }
+        input[type="text"], input[type="date"], input[type="time"], input[type="number"] {
+            width: 200px; padding: 6px;
+        }
     </style>
 </head>
 <body>
-    <h1>Agenda Online</h1>
+    <h1>Agenda de Medicamentos – 100% Editável</h1>
 
-    <label>Data:</label>
-    <input type="date" id="data">
+    <button onclick="adicionarLinha()">Adicionar Nova Linha</button>
 
-    <label>Descrição:</label>
-    <textarea id="descricao"></textarea>
-
-    <button onclick="adicionarEvento()">Adicionar</button>
-
-    <h2>Eventos</h2>
-    <div id="lista"></div>
+    <table id="tabela">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Medicamento</th>
+                <th>Hora</th>
+                <th>Data</th>
+                <th>Quantidade</th>
+                <th>Início</th>
+                <th>Término</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
 
     <script>
-        function adicionarEvento() {
-            const data = document.getElementById("data").value;
-            const desc = document.getElementById("descricao").value;
+        function adicionarLinha() {
+            const tbody = document.querySelector('#tabela tbody');
+            const linha = document.createElement('tr');
 
-            if (!data || !desc) {
-                alert("Preencha todos os campos!");
-                return;
-            }
+            linha.innerHTML = `
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td><button onclick="removerLinha(this)">Excluir</button></td>
+            `;
 
-            const div = document.createElement("div");
-            div.className = "evento";
-            div.innerHTML = `<strong>${data}</strong><br>${desc}`;
+            tbody.appendChild(linha);
+        }
 
-            document.getElementById("lista").appendChild(div);
-
-            document.getElementById("descricao").value = "";
+        function removerLinha(botao) {
+            botao.parentElement.parentElement.remove();
         }
     </script>
 </body>
