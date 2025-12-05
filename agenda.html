@@ -1,194 +1,49 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agenda de Medicações – 3 Pessoas</title>
-<style>
-    body { font-family: Arial, sans-serif; margin: 20px; background: #f4f4f4; }
-    h1 { text-align: center; }
-    table { width: 100%; border-collapse: collapse; background: #fff; }
-    th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
-    th { background: #e7e7e7; }
-    .person-column { width: 80px; text-align: center; }
-    .done { background: #c8f7c5; }
-</style>
-<script>
-function markDone(checkbox) {
-    const row = checkbox.parentElement.parentElement;
-    if (checkbox.checked) {
-        row.classList.add("done");
-    } else {
-        row.classList.remove("done");
-    }
-}
-</script>
+    <meta charset="UTF-8">
+    <title>Minha Agenda Online</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1 { color: #333; }
+        label { display: block; margin-top: 10px; }
+        input, textarea { width: 300px; padding: 8px; margin-top: 5px; }
+        button { margin-top: 15px; padding: 10px 20px; }
+        .evento { margin-top: 20px; padding: 10px; border: 1px solid #ccc; }
+    </style>
 </head>
-
 <body>
-<h1>Agenda de Medicações – Compartilhado por 3 Pessoas</h1>
+    <h1>Agenda Online</h1>
 
-<table>
-<thead>
-<tr>
-    <th>Data</th>
-    <th>Hora</th>
-    <th>Medicamento</th>
-    <th>Dose</th>
-    <th>Via</th>
-    <th>Observações</th>
-    <th class="person-column">Pessoa 1</th>
-    <th class="person-column">Pessoa 2</th>
-    <th class="person-column">Pessoa 3</th>
-</tr>
-</thead>
+    <label>Data:</label>
+    <input type="date" id="data">
 
-<tbody>
+    <label>Descrição:</label>
+    <textarea id="descricao"></textarea>
 
-<!-- A agenda está aqui (todos os itens inseridos) -->
+    <button onclick="adicionarEvento()">Adicionar</button>
 
-<tr><td>29/11/2025</td><td>17:00</td><td>Prediderm</td><td>1 comp</td><td>Oral</td><td>Usar com Ciclosporina</td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+    <h2>Eventos</h2>
+    <div id="lista"></div>
 
-<tr><td>29/11/2025</td><td>17:00</td><td>Epiotic</td><td>Aplicar</td><td>Otológica</td><td>Agitar antes de usar</td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+    <script>
+        function adicionarEvento() {
+            const data = document.getElementById("data").value;
+            const desc = document.getElementById("descricao").value;
 
-<tr><td>30/11/2025</td><td>17:00</td><td>Prediderm</td><td>1 comp</td><td>Oral</td><td></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+            if (!data || !desc) {
+                alert("Preencha todos os campos!");
+                return;
+            }
 
-<tr><td>30/11/2025</td><td>17:00</td><td>Agemoxi CL</td><td>1/2 comp</td><td>Oral</td><td>Início hoje</td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+            const div = document.createElement("div");
+            div.className = "evento";
+            div.innerHTML = `<strong>${data}</strong><br>${desc}`;
 
-<tr><td>30/11/2025</td><td>17:00</td><td>Epiotic</td><td>Aplicar</td><td>Otológica</td><td></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
+            document.getElementById("lista").appendChild(div);
 
-<tr><td>01/12/2025</td><td>17:00</td><td>Prediderm</td><td>1 comp</td><td>Oral</td><td></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
-
-<tr><td>01/12/2025</td><td>17:00</td><td>Agemoxi CL</td><td>1/2 comp</td><td>Oral</td><td></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
-
-<tr><td>01/12/2025</td><td>17:00</td><td>Epiotic</td><td>Aplicar</td><td>Otológica</td><td></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
-
-<tr><td>02/12/2025</td><td>17:00</td><td>Prediderm</td><td>1 comp</td><td>Oral</td><td></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
-
-<tr><td>02/12/2025</td><td>17:00</td><td>Agemoxi CL</td><td>1/2 comp</td><td>Oral</td><td>Último dia</td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
-
-<tr><td>02/12/2025</td><td>17:00</td><td>Epiotic</td><td>Aplicar</td><td>Otológica</td><td></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
-
-<tr><td>03/12/2025</td><td>17:00</td><td>Prediderm</td><td>1 comp</td><td>Oral</td><td></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
-
-<tr><td>03/12/2025</td><td>17:00</td><td>Epiotic</td><td>Aplicar</td><td>Otológica</td><td></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
-
-<tr><td>04/12/2025</td><td>17:00</td><td>Prediderm</td><td>1 comp</td><td>Oral</td><td></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
-
-<tr><td>04/12/2025</td><td>17:00</td><td>Epiotic</td><td>Aplicar</td><td>Otológica</td><td></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
-
-<tr><td>05/12/2025</td><td>17:00</td><td>Prediderm</td><td>1 comp</td><td>Oral</td><td></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
-
-<tr><td>05/12/2025</td><td>17:00</td><td>Epiotic</td><td>Aplicar</td><td>Otológica</td><td></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
-
-<tr><td>06/12/2025</td><td>17:00</td><td>Prediderm</td><td>1 comp</td><td>Oral</td><td></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
-
-<tr><td>06/12/2025</td><td>17:00</td><td>Epiotic</td><td>Aplicar</td><td>Otológica</td><td></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
-
-<tr><td>07/12/2025</td><td>17:00</td><td>Prediderm</td><td>1 comp</td><td>Oral</td><td></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
-
-<tr><td>07/12/2025</td><td>17:00</td><td>Epiotic</td><td>Aplicar</td><td>Otológica</td><td></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
-
-<tr><td>08/12/2025</td><td>17:00</td><td>Prediderm</td><td>1 comp</td><td>Oral</td><td>Último dia dessa fase</td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
-
-<tr><td>08/12/2025</td><td>17:00</td><td>Epiotic</td><td>Aplicar</td><td>Otológica</td><td>Último dia</td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
-
-<tr><td>09/12/2025</td><td>17:00</td><td>Prediderm</td><td>1/2 comp</td><td>Oral</td><td>Início da redução</td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
-
-<tr><td>10/12/2025</td><td>17:00</td><td>Prediderm</td><td>1/2 comp</td><td>Oral</td><td></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
-
-<tr><td>11/12/2025</td><td>17:00</td><td>Prediderm</td><td>1/2 comp</td><td>Oral</td><td></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
-
-<tr><td>12/12/2025</td><td>17:00</td><td>Prediderm</td><td>1/2 comp</td><td>Oral</td><td></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
-
-<tr><td>13/12/2025</td><td>17:00</td><td>Prediderm</td><td>1/2 comp</td><td>Oral</td><td>Último dia</td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td>
-<td><input type="checkbox" onclick="markDone(this)"></td></tr>
-
-</tbody>
-</table>
-
+            document.getElementById("descricao").value = "";
+        }
+    </script>
 </body>
 </html>
