@@ -14,9 +14,10 @@
     .person-column { width: 80px; text-align: center; }
     input[type="checkbox"] { transform: scale(1.3); }
     .done { background: #c8f7c5; }
-    button { margin-bottom: 10px; padding: 10px 15px; font-size: 16px; cursor: pointer; }
+    button { margin: 5px 0; padding: 10px 15px; font-size: 16px; cursor: pointer; }
 </style>
 <script>
+// Marca ou desmarca linha como concluída
 function markDone(checkbox) {
     const row = checkbox.parentElement.parentElement;
     if (checkbox.checked) {
@@ -26,10 +27,11 @@ function markDone(checkbox) {
     }
 }
 
+// Salva os dados da tabela no localStorage
 function saveData() {
     const table = document.getElementById('agenda');
     const data = [];
-    for (let i = 1; i < table.rows.length; i++) {
+    for (let i = 0; i < table.rows.length; i++) {
         const row = table.rows[i];
         const rowData = [];
         for (let j = 0; j < row.cells.length; j++) {
@@ -47,12 +49,18 @@ function saveData() {
     alert("Alterações salvas!");
 }
 
+// Carrega os dados do localStorage
 function loadData() {
     const data = JSON.parse(localStorage.getItem('agendaData') || "[]");
     const table = document.getElementById('agenda');
     if (data.length === 0) return;
+
     for (let i = 0; i < data.length; i++) {
-        const row = table.rows[i + 1];
+        // Se não existir a linha, cria
+        if (!table.rows[i]) {
+            addRow();
+        }
+        const row = table.rows[i];
         for (let j = 0; j < row.cells.length; j++) {
             const cell = row.cells[j];
             const checkbox = cell.querySelector('input[type="checkbox"]');
@@ -66,27 +74,47 @@ function loadData() {
     }
 }
 
+// Adiciona uma nova linha editável
+function addRow() {
+    const table = document.getElementById('agenda');
+    const row = table.insertRow();
+    for (let i = 0; i < table.rows[0].cells.length; i++) {
+        const cell = row.insertCell();
+        if (i >= table.rows[0].cells.length - 3) { // Últimas 3 colunas são checkboxes
+            const checkbox = document.createElement('input');
+            checkbox.type = "checkbox";
+            checkbox.onclick = function() { markDone(this); };
+            cell.appendChild(checkbox);
+            cell.className = "person-column";
+        } else {
+            cell.contentEditable = "true";
+        }
+    }
+}
+
 window.onload = loadData;
 </script>
 </head>
 <body>
 
-<h1>Agenda de Medicações – Compartilhado por 3 Pessoas</h1>
+<h1 contenteditable="true">Agenda de Medicações – Compartilhado por 3 Pessoas</h1>
+
+<button onclick="addRow()">Adicionar nova linha</button>
 <button onclick="saveData()">Salvar alterações</button>
 <br><br>
 
 <table id="agenda">
 <thead>
 <tr>
-    <th>Data</th>
-    <th>Hora</th>
-    <th>Medicamento</th>
-    <th>Dose</th>
-    <th>Via</th>
-    <th>Observações</th>
-    <th class="person-column">Pessoa 1</th>
-    <th class="person-column">Pessoa 2</th>
-    <th class="person-column">Pessoa 3</th>
+    <th contenteditable="true">Data</th>
+    <th contenteditable="true">Hora</th>
+    <th contenteditable="true">Medicamento</th>
+    <th contenteditable="true">Dose</th>
+    <th contenteditable="true">Via</th>
+    <th contenteditable="true">Observações</th>
+    <th class="person-column" contenteditable="true">Pessoa 1</th>
+    <th class="person-column" contenteditable="true">Pessoa 2</th>
+    <th class="person-column" contenteditable="true">Pessoa 3</th>
 </tr>
 </thead>
 <tbody>
@@ -114,8 +142,6 @@ window.onload = loadData;
     <td><input type="checkbox" onclick="markDone(this)"></td>
     <td><input type="checkbox" onclick="markDone(this)"></td>
 </tr>
-
-<!-- Continue todas as linhas restantes da sua agenda com contenteditable="true" nas células de texto -->
 
 </tbody>
 </table>
